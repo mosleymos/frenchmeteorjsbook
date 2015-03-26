@@ -1,1 +1,1 @@
-# frenchmeteorjsbook
+# frenchmeteorjs
