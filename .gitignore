@@ -1,0 +1,5 @@
+# Ignorer les fichier de swap (echange, fichiers temporaires) il alourdissent le dépôt
+
+*.swp
+*.swo
+*~
