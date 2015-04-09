@@ -19,9 +19,30 @@ Meteor est un environnement ultra simple pour construire des site internet moder
 6. Intégrez l'écosystème - Meteor est open source
 7. Simplicité est synonyme de productivité - 
 
+
+## Elements de base du framework meteorjs
+
+1. Templates - Créez des vues qui se mettent à jour automatiquement lorsque la donnée change.
+2. Session - Stockez de manière temporaire les données pour l'interface utilisateur
+3. Tracker - Relancer une fonction lorsque la donnée change.
+4. Collection - Stocker de la donnée persistente
+5. Comptes - Laissez vos utilisateurs s'enregistrer, se connecter avec des mots de passes ou Facebook, Google, Github ...
+6. Methodes - Appellez a partir du client des methodes sur le serveur
+7. Publier/Souscrire - Synchroniser une partie de votre donnée dans le client
+8. Environnement - COntroller quand et où votre code tourne.
+9. Paquets - Choisissez parmi les milliers de paquets de la communauté.
+
 # Concepts
 
 ## Qu'est ce que Meteor
+
+Meteor est un environnement ultra-simple pour la construction des sites Web modernes. Ce qui prenait auparavant des semaines,  même avec les meilleurs outils, prend maintenant quelques heures avec Meteor.
+
+Le web a été conçu pour fonctionner de la même manière que les mainframes des années 70. Le serveur d'application effectuait un rendu et l'envoyait sur le réseau à un terminal. Chaque fois que l'utilisateur a fait quelque chose, ce serveur générait un tout nouveau écran. Ce modèle a servi le Web pendant près d'une décennie. Il a donné naissance à LAMP, Rails, Django, PHP.
+
+Cependant il est désormais possible créer des applications en JavaScript qui se exécutent sur le client avec les mêmes équipes, les mêmes gros budgets et les mêmes horaires.  Ces applications ont des interfaces locales. On n'a pas besoin de recharger les pages. Ces applications javascript sont réactives:  les changements effectués de ne importe quel poste apparaissent immédiatement sur l'écran des autres.
+
+Ces applications sont codés à la "dure". Meteor les a simplifiés et rendu plus ludiques. Vous pouvez construire une application complète en un week-end ou au sein d'un hackathon avec suffisamment de café. Vous n'avez plus besoin de ressources du serveur, ou de déployer des paramètres de l'API dans le cloud, ou de gérer une base de données, ou d'utiliser une couche ORM, ou de gérer dans les deux sens les invalidations de données entre Javascript et Ruby, ou la diffusion de données entre des clients.
 
 ## Structurer votre application
 
@@ -88,6 +109,7 @@ Cet exemple pris de chat room met en place une subscription basé sur la variabl
  maths.js
  require.js
 
+
 Outil aussi intéressant que fiddlejs - howjs [howjs](http://www.howjs.com)
 
 #### Faire un rendu json par meteor - création d'une forme d'api
@@ -152,3 +174,14 @@ this.route('rawdata', {
 
 1. Create a simple API
 2. Create a simple geolocation testimony site
+
+
+
+### Templates
+Lorsque vous écrivez un template tel que 
+```
+<template name='foo'></template>`
+```
+Meteor génère un objet template nommé Template.foo
+
+Le même template peut être mis plusieurs fois sur une page et ses occurence s sont nommées des instances. Les instances de templates on une durée de vie  lorsqu'elle sont crées`
