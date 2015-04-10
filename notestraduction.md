@@ -169,6 +169,136 @@ this.route('rawdata', {
 });
 
 ```
+#### Paquets les plus utilisés au sein de la communauté meteor
+
+Liste des paquets les plus utilisés au sein de meteorjs
+
+sacha:spin - Spinner
+
+jquery - manipulation du DOM 
+
+underscore - fonctions javascriptes non natives
+
+twbs:bootstrap - official bootstrap css
+
+tap:i18  - internationalisation
+
+mail - envoi de mail
+
+accounts-ui - User log_in log_out helpers
+
+accounts-password - User accounts
+
+iron:router - routing in meteor
+
+pauldowman:dotenv - Gestion des variables d'environnement
+
+spiderable - Référencement  SEO
+
+http - Faire des requete http
+
+markdown - Html simplifié
+
+Ensemble des paquets aldeed:
+
+aldeed:simple-schema
+aldeed:template-extension
+aldeed:autoform
+
+Modals
+
+anti:modals
+
+Outils développement
+
+msavin:mongol
+
+Pour faire un peu de 3D
+acemtp:x3dom 
+
+
+Paquets utiles 
+
+accounts-password 
+useraccounts:core 
+reactive-var 	
+reactive-dict 		
+iron:router 	
+zimme:iron-router-active 
+zimme:iron-router-auth 
+manuelschoebel:ms-seo 
+dburles:collection-helpers 
+matb33:collection-hooks 
+reywood:publish-composite 
+ongoworks:security
+alanning:roles 
+aldeed:autoform
+aldeed:collection2
+aldeed:simple-schema
+momentjs:moment 
+matteodem:easy-search 
+matteodem:server-session 
+meteorhacks:kadira
+meteorhacks:aggregate 
+meteorhacks:fast-render 
+meteorhacks:subs-manager
+meteorhacks:unblock 
+raix:handlebar-helpers 
+yogiben:helpers 
+zimme:collection-softremovable 
+zimme:collection-timestampable 
+u2622:persistent-session 
+tmeasday:publish-counts 
+percolatestudio:synced-cron 
+dburles:factory 
+anti:fake 
+The rabbit hole goes deeper...
+
+Wow, you must really be committed if you got this far. Ok, so you want my super secret lists?
+Service Providers
+
+When you go to deploy your app online there are a huge amount of service providers available to a developer. Below are a few that specifically serve the Meteor community (and do a great job) so I decided to give them a shout.
+
+    Kadira - Performance Tracking
+    Modulus - Hosting (Use code 'Metpodcast' to get a $25 credit)
+    Compose - Mongo Database Hosting with Oplog
+
+Blogs, Vlogs, News & more (no order)
+
+Come drink the Meteor cool-aid with me... look we won't be alone.
+
+    Crater.io - News Aggregate
+    Meteor Weekly - News Aggregate
+    Meteor's Official Blog - Blog
+    Josh Owens - Blog
+    Discover Meteor - Blog
+    The Meteor Chef - Blog
+    Differential - Blog
+    Gentlenode - Blog
+    MeteorHacks - Blog
+    Meteor Tips - Blog
+    PEM - Blog
+    Manuel Schoebel - Blog
+    Practical Meteor - Blog
+    Lukasz Kups - Blog
+    David Burles - Blog
+    David Weldon - Blog
+    The Meteor Podcast - Podcast
+    Meteor Devshops - YouTube
+    Josh Owens - YouTube
+    George McKnight - YouTube
+    Arunoda Susiripala - YouTube
+    David Turnball - YouTube
+    Sasi Kanth - YouTube
+    Vianney Lecroart - Medium
+    Space Camp - Medium
+    Dominus - Medium
+    Arunoda Susiripala - Medium
+    Sacha Greif - Medium
+    Paul van Zyl - Medium
+
+
+
 
 ##### Approche de développement
 
