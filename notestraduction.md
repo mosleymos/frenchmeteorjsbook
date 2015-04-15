@@ -96,6 +96,102 @@ Cet exemple pris de chat room met en place une subscription basé sur la variabl
 
 
 
+## Sessions
+
+La Session fournit un objet global dans le client que vous pouvez utiliser pour stocker un ensemble arbitraire de données clé-valeur. Utilisez-la session pour stocker des informations comme l'élément actuellement sélectionné dans une liste.
+
+La particularité de la  session est que celle ci est réactive. Si vous appelez Session.get ("maCle") dans un Template helper ou à l'intérieur de Tracker.autorun, la partie valeur de la clé sera de nouveau rendu de manière automatique chaque fois que Session.set ("maCle", nouvelle valeur) est appelée.
+
+
+### Session.set 
+
+Défini une variable au sein de la session.
+
+
+### Session.get
+
+Obtenir la valeur d'une variable de session.
+
+### Exemple d'utilisation des sessions
+
+Exemple:
+
+```javascript
+
+<!-- In your template -->
+<template name="main">
+  <p>We've always been at war with {{theEnemy}}.</p>
+</template>
+
+// In your JavaScript
+Template.main.helpers({
+  theEnemy: function () {
+    return Session.get("enemy");
+  }
+});
+
+Session.set("enemy", "Eastasia");
+// Page will say "We've always been at war with Eastasia"
+
+Session.set("enemy", "Eurasia");
+// Page will change to say "We've always been at war with Eurasia"
+
+```
+
+Utiliser la session nous donne un premier goût de la réactivité, l'idée que la vue se met à jour automatiquement si nécessaire, sans avoir à appeler une fonction.  Dans la section suivante, nous allons apprendre à utiliser Tracker, la bibliothèque qui rend cela possible dans Meteor.
+
+
+### TRACKER
+
+Meteor a un système de gestion des dépendances simple qui permet de relancer et mettre à jour de manière automatique les templates, les variables de session, et les bases de donnnées dès lors que les données changent.
+
+A l'inverse des autres systèmes, vous n'avez pas à définir ces dépendances, "ça fonctionne", le mécanisme est simple et efficace. Une fois que vous avez initialisé une computation avec Tracker.autorun chaque fois que vous appelez une fonction de Meteor qui renvoie des données, Tracker enregistre automatiquement les données qui ont été accessibles. Plus tard, lorsque une modification des données est effectuée, le calcul est relancé automatiquement. C'est ainsi un modèle sait comment re-rendre chaque fois ses fonctions d'aide ont de nouvelles données à renvoyer.
+
+
+Tracker.autorun vous permet d'exécuter une fonction qui dépend de sources de données réactives. Chaque fois qu'une de ces sources de données sont mises à jour avec de nouvelles données, la fonction pourra être relancée.
+
+Par exemple, vous pouvez surveiller une variable de session et de fixer une autre:
+
+```javascript
+Tracker.autorun(function () {
+  var celsius = Session.get("celsius");
+  Session.set("fahrenheit", celsius * 9/5 + 32);
+});
+
+```
+
+Ou vous pouvez attendre qu'une variable de session ait une certaine valeur, et effectuer un calcul. Si vous souhaiter l'arrêt d'un tracker vous devriez appeller la methode stop() sur la computation :
+
+```javascript
+
+// Initialize a session variable called "counter" to 0
+Session.set("counter", 0);
+
+// The autorun function runs but does not alert (counter: 0)
+Tracker.autorun(function (computation) {
+  if (Session.get("counter") === 2) {
+    computation.stop();
+    alert("counter reached two");
+  }
+});
+
+// The autorun function runs but does not alert (counter: 1)
+Session.set("counter", Session.get("counter") + 1);
+
+// The autorun function runs and alerts "counter reached two"
+Session.set("counter", Session.get("counter") + 1);
+
+// The autorun function no longer runs (counter: 3)
+Session.set("counter", Session.get("counter") + 1);
+
+```
+
+### Architecture METEOR - METEOR MANUAL
+
+[Meteor Manual](http://manual.meteor.com/)
+
+
+
 ### ANNEXES 
 #### Outils utilisés
  Les librairies les plus courantes et à utiliser le plus souvent en javascript sont:
