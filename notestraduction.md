@@ -57,7 +57,7 @@ Ces applications sont codés à la "dure". Meteor les a simplifiés et rendu plu
     Ces fichiers sont executés avant le code coté client.
 
 6. tests
-7. lib - Dossier qui est initialisé dans tous les cas dans meteor 
+7. lib - Dossier qui est initialisé dans tous les cas dans meteor, il peut contenir des fois des scripts personnalisées, utilitaires. 
 
 #### Fichier au dehors des dossiers spéciaux
 
@@ -95,6 +95,72 @@ Meteor embrasse le concept de programmation réactive(Ndt:Faire lien vers wikip�
 Cet exemple pris de chat room met en place une subscription basé sur la variable de session currentRoomId. Si la valeur ... change pour n'importe quelle raison, la fonction est automatiquement recalculée remplacant l'ancienne par la nouvelle subscription.
 
 
+## Collections
+
+Meteor stocke les données au sein de collections. Premièrement créez une collection avec Mongo.Collection.
+
+SYNOPSIS
+
+#### new Mongo.Collection(name, [options])
+
+name - (STRING) Nom de la collection
+
+[options]
+    - connection (OBJET) La connexion serveur qui va gérer la collections. Utilise la connection par défaut si elle est non spécifié. Passez la valeur de retour de DDP.connect pour spécifier un serveur différent. Passez la valeur null pour spécifier l'absence de connection.
+    - idGeneration (STRING) La méthode pour générer des champs _id de nouveaux documents dans la collection. Les valeurs possibles sont 
+        1. 'STRING': chaînes aléatoires
+        2. 'MONGO': valeurs aléatoire Mongo.ObjectID
+    - Transform
+        Une fonction optionnelle de transformation. Les documents seront passés au travers de cette fonction avant d'être retourné par un fetch ou un findOne et aussi avant d'être passé par les callbacks observe, map, forEach, allow et deny. Les transformations ne sont pas appliqués pour les callbacks observeChanges ou aux curseurs retournés des fonction de publication.
+
+Appeller une fonction est analogue à déclarer un model dans un ORM (Object Relationnal Mapper) classique centré sur un framework. Il met en place une collection (un espace dédié aux enregistrement, ou documents) qui eput être utilisé pour stocker un type particulier d'information, tels que les utilisateurs, posts, scores, taches, ou ce qui importe à votre application.
+Chaque document est un objet EJSON. Il inclue une _id propriété dont la valeur unique est dans la collection auquel Meteor vous enverra dès que le document sera crée.
+```
+// collection.
+Chatrooms = new Mongo.Collection("chatrooms");
+Messages = new Mongo.Collection("messages");
+
+```
+ Une fonction qui retourne un objet avec des methodes pour inserer des documents dans la collection, mettre à jour leurs propriétes, et les enlever et de trouver les documents au sein de al collection qui correspondent à n'importe quel critère. La manière dont fonctionne ces methodes travaille est compatible avec la base de donnée Mongo. La même base fonctionne à la fois sur client et serveur.
+
+```
+// return array of my messages
+var myMessages = Messages.find({userId: Session.get('myUserId')}).fetch();
+
+// create a new message
+Messages.insert({text: "Hello, world!"});
+
+// mark my first message as "important"
+Messages.update(myMessages[0]._id, {$set: {important: true}});
+```
+
+#### collection.find([selector], [options])
+
+Trouve les documents dans une collection qui correspondent au sélécteur
+
+    - selector (Selecteur Mongo, ObjectId ou Chaine)
+        Une requête qui décrit les documents à trouver
+
+    - Options
+        sort (Mongo Sort Specifier)
+            Trie 
+        skip (Nombre)
+            Nombre de résultat à skipper depuis le début
+        limit (Nombre)
+            Nombre maximal de resultat à renvoyer
+        fields (Mongo Field Specifier)
+            Dictionnaire des champs à retourner ou exclure
+        reactive (Boolean)
+            Uniquement sur le client - Par défaut true ; mettre à false si l'on veut désactiver la réactivité
+        transform (Fonction)
+            Verrouille transformation sur la collection
+
+find retourne un curseur. Le curseur ne donne pas un accès immédiat à la base de donnée ou retourne des documents. Les curseurs fourniessent une fonction fetch qui retourne tous les documents qui remplissent la condition. Map et forEach itèrent sur tous les documents correspondants. Observe et ObserveChanges lance les callbacks lorsqu'un set de documents changent.
+Les curseurs sont des sources de données réactives. Sur le client, la première fois que vous récupérez un documents avec curseur avec fetch, map ou forEach, Meteor va enregistrer une dépendance avec la donnée.
+Tout changement sur la collection va changer le curseur qui va relancer une computation. Pour arrêter ce comportement, passez { reactive: false } comme une option pour find.
+
+Noez que lorsque fields sont spécifiés, seulement les changements sur les chan 
+L'utilisation avec attentions de fields permet une réactivité au grain pour les computation qui ne dépendent par d'un document entier.
 
 ## Sessions
 
@@ -190,7 +256,61 @@ Session.set("counter", Session.get("counter") + 1);
 
 [Meteor Manual](http://manual.meteor.com/)
 
+Bienvenue dans le manuel Meteor ! Içi nous allons vous enseigner comment utiliser le potentiel de meteor ainsi qu'expliquer les décision et l'ingénierie derrière chaque fonctionnalité. La première section concernera les Deps, une petite mais puissante librairie qui permet la programmation réactive de manière transparente. Dans le second chapitre nous aborderons Blaze le systeme de template réactif de Meteor. Les derniers chapitres concerneront le DDP (le protocole de données distribuées) et Unibuild (un outil de gestion des paquets et de leur construction).
 
+#### Deps
+##### Aperçu
+
+Meteor Deps est une librairie incroyablement petite (1 k) mais incroyablement puissante pour la programmation réactive transparente en javascript.
+
+##### Programmation Réactive transparente
+Un problème basique survient lorsque l'on écrit des application, surtout dès lors que l'on essaie de surveiller le changement de quelques valeurs tel qu'une donnée au sein d'une base de données, l'objet couramment selectionné dans une table, la largeur de la fenêtre, ou le temps actuel et mettre à jour lorsque n'importe quelle de ces valeurs change.
+
+Il y a plusieurs stratégies couramment usées pour exprimer ces idées:
+
+1. Poll and diff - De manière périodique (toutes les secondes par exemple), attraper la valeur courante de l'objet et voir si elle est changée et ensuite procéder à la mise à jour.
+2. Events - L'objet changé emet un évènement lorsqu'il change. Une autre part du programme (souvent le controller) se débrouille pour écouter l'évènement, obtient la valeur courante et procède à la mise à jour lorsque l'évènement est lancé.
+3. Bindings - Les valeurs sont representés par des objets qui implémentent des interfaces comme bindableValue. Alors une methode bind est utilisé pour relier deux BindableValues ensemble de telle sorte que lorsqu'une valeur change, l'autre est mise à jour de manière automatique.
+
+
+
+3. Building a User Interface with Transparent Reactive Programming
+Une librairie que vous pouvez utiliser est ReactiveDict qui fournit un simple objet de type dictionnaire qui rend les données totalement réactives
+
+```javascript
+var forecasts = new ReactiveDict;
+forecasts.set("san-francisco", "cloudy");
+forecasts.get("san-francisco");
+// "cloudy"
+
+```
+
+Maintenant mettons notre météo courante pour San Francisco sur l'écran et rendons les mises à jour réactives dès lors que la météo change. Le code est étonnament court.
+
+```
+$('body').html("The weather here is <span class='forecast'></span>!");
+Deps.autorun(function () {
+  $('.forecast').text(forecasts.get('san-francisco'));
+});
+// Page now says "The weather here is cloudy!"
+
+forecasts.set("san-francisco", "foggy");
+// Page updates to say "The weather here is foggy!"
+
+```
+
+Dans une application réelle vous n'aurez jamais à écrire autant de code si vous utilisez une librairie tel que Meteor Blaze qui vous laise utiliser son systeme de templating tels que:
+```
+<template name="weather">
+  The weather here is {{forecast}}!
+</template>
+
+// In app.js
+Template.weather.forecast = function () {
+  return forecasts.get("san-francisco");
+};
+
+```
 
 ### ANNEXES 
 #### Outils utilisés
@@ -311,6 +431,8 @@ msavin:mongol
 
 Pour faire un peu de 3D
 acemtp:x3dom 
+
+ongoworks:security - gestion securité sous meteor
 
 
 Paquets utiles 
