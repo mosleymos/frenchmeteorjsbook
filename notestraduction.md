@@ -252,6 +252,70 @@ Session.set("counter", Session.get("counter") + 1);
 
 ```
 
+### BLAZE
+
+Blaze*.render(templateOrView, parentNode, [nextNode], [parentView]) --------------Client
+
+Rend un template ou une vue et l'insère au niveau du DOM, retournant une vue rendue, qui peut être placé à Blaze.remove
+
+Arguments
+    TemplateOrView Blaze.Template ou Blaze.view
+        Le template ou vue à générer. Si c'est un template, un objet vue est construit. Si c'est une vue, il doit être non
+
+    ParentNode DOM Node
+        Le node qui va être parent du template rendu. Il doit être un node Elément.
+
+    NextNode DOM Node
+        Optionnel, s'il est donné, il doit être enfant du parentNode; le template doit être inséré avant le Node. S'il n'est pas fourni, il sera inséré comme dernier noeud enfant du parentNode.
+
+
+
+### Assets
+Assets autorise le code dans la partie serveur d'une application Meteor d'accéder aux assets statiques qui sont localisés au sein du dossier private de l'arbre de l'application. Les assets ne sont pas pris en compte comme fichiers sources et son copiés directement au dans le package de l'application.
+
+Assets.getText(assetPath, [asyncCallback]) ------Partie serveur
+    Récupère les contenus statiques du serveur sous un encodage UTF8 
+        Arguments
+
+            assetPath String
+                Le chemin de l'asset relatif au dossier private de l'application
+            asyncCallback Fonction 
+                Callback optionnel qui est appellé de manière asynchrone avec une erreur ou un résultat dès lors que l'éxecution de la fonction est complète. Si le callback n'est pas fourni, la fonction est lancé en synchrone.
+
+Assets.getBinary(assetPath, [asyncCallback]) -----------Partie Serveur
+    Récupère les contenu static du server comme des EJSON BINARY
+        Arguments
+        
+            assetPath String
+                Le chemin de l'asset, est relatif du dossier private de l'application
+            asyncCallback Fonction
+                Callback optionnel qui est appellé de manière asynchrone avec une erreur ou un résultat dès lors que l'éxecution de la fonction est complète. Si le callback n'est pas fourni, la fonction est lancé en synchrone.
+
+Les assets statiques du serveur sont inclus en les places dans le dossier private. Par exemple si une application a un sous dossier private qui contient un dossier nested avec un fichier appellé data.txt à l'intérieur alors le code serveur peut lire data.txt en lançant:
+
+```
+
+var data = Assets.getText('nested/data.txt')
+
+```
+
+
+### EJSON
+
+EJSON est une extension du JSON qui supporte un plus grand nombre de types. EJSON supporte tous les types JSON-types safes tles que 
+1. Date (Javascript Date)
+2. Binary (Javascript Uint_Array ou les résultat de EJSON.newBinary)
+3. Types définis par l'utilisateur (voir Ejson addType) Par example Mongo.ObjetId est implémenté de cette manière
+
+Toutes les sérialisations EJSON sont aussi valides en JSON. Par example un objet avec une date et un buffer binaire peut être sérialisé en EJSON comme 
+
+```
+{
+  "d": {"$date": 1358205756553},
+  "b": {"$binary": "c3VyZS4="}
+}
+```
+
 ### Architecture METEOR - METEOR MANUAL
 
 [Meteor Manual](http://manual.meteor.com/)
@@ -311,6 +375,7 @@ Template.weather.forecast = function () {
 };
 
 ```
+
 
 ### ANNEXES 
 #### Outils utilisés
