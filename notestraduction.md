@@ -300,6 +300,87 @@ var data = Assets.getText('nested/data.txt')
 ```
 
 
+### Templates
+Lorsque vous écrivez un template tel que 
+```
+<template name='foo'></template>`
+```
+Meteor génère un objet template nommé Template.foo
+
+Le même template peut être mis plusieurs fois sur une page et ses occurence s sont nommées des instances. Les instances de templates on une durée de vie  lorsqu'elle sont crées`
+
+Template.myTemplate.onRendered --------------Client
+
+Enregistre une fonoction qui est appellé lorsqu'une instance du template est inserée dans le DOM.
+    Arguments
+        CallBack - Function
+            fonction qui est ajouté comme callback
+
+
+Les callbacks sont ajoutés avec cette méthode sont appellés une fois lorsqu'une instace de Template.mytemplate sont rendus en noeuds du DOM et mis dans le domcument pour la première fois.
+
+Dans le corps du callback, this est une instance de l'objet template qui est unique.
+Utilisez les callbacks onCreated et onDestroyed pour effectuer une initialisation ou un nettoyage de l'objet.
+
+Parce que votre template a été déjà rendu, vous pouvez utiliser les fonction this.findAll qui regardent au travers de noeuds du DOM.
+
+Cela peut être une bonne place pour appliquer n'importe quelle manipulation du DOM que vous souhaitez après que le template soit rendu une première fois.
+
+```
+
+<template name="myPictures">
+  <div class="container">
+    
+  </div>
+</template>
+
+
+
+Template.myPictures.onRendered(function () {
+  // Use the Packery jQuery plugin
+  this.$('.container').packery({
+    itemSelector: '.item',
+    gutter: 10
+  });
+});
+
+```
+
+Template.myTemplate.onCreated---------------Client
+
+Enregistre une fonction a appeller lorsque une instance de ce temp
+
+Arguments
+  callback function
+    Une fonction a être ajouté comme callback
+
+Les callbacks sont ajoutés avec cette methode avant que la logique de votre template est évalué la première fois. A l'intérieur su callback, this correspond à l'in
+Les propriétés que vous initialisez sur l'objet seront visibles depuis les callbacks ajoutés avec onRendered et onDestroyed et des gestionnaires d'évènements. 
+
+Ces callbacks se lancent une seule fois et sont le ... Gérer l'évènement create est une manière utile de mettre les valeurs au sein de l'instance du template et de lire depuis les template helpers en usant de Template.instance().
+
+```
+
+Template.myPictures.onCreated(function () {
+  // set up local reactive variables
+  this.highlightedPicture = new ReactiveVar(null);
+
+  // register this template within some central store
+  GalleryTemplates.push(this);
+});
+
+```
+
+Ndt
+Possibilité de faire template.subscribe
+
+
+
+### Packages
+
+
+
+
 ### EJSON
 
 EJSON est une extension du JSON qui supporte un plus grand nombre de types. EJSON supporte tous les types JSON-types safes tles que 
@@ -378,9 +459,19 @@ Template.weather.forecast = function () {
 
 
 ### ANNEXES 
+
+
+#### Clustering en meteorjs
+
+Article sur le sujet exploré par le site meteorhacks
+[Meteor Hacks](https://meteorhacks.com/cluster-a-different-kind-of-load-balancer-for-meteor) 
+
+Le paquet est meteorhacks:cluster
+
+
 #### Outils utilisés
  Les librairies les plus courantes et à utiliser le plus souvent en javascript sont:
- 
+
  angular.js
  underscore.js
  sugar.js
@@ -590,11 +681,3 @@ Come drink the Meteor cool-aid with me... look we won't be alone.
 
 
 
-### Templates
-Lorsque vous écrivez un template tel que 
-```
-<template name='foo'></template>`
-```
-Meteor génère un objet template nommé Template.foo
-
-Le même template peut être mis plusieurs fois sur une page et ses occurence s sont nommées des instances. Les instances de templates on une durée de vie  lorsqu'elle sont crées`
