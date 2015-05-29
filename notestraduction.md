@@ -162,6 +162,78 @@ Tout changement sur la collection va changer le curseur qui va relancer une comp
 Noez que lorsque fields sont spécifiés, seulement les changements sur les chan 
 L'utilisation avec attentions de fields permet une réactivité au grain pour les computation qui ne dépendent par d'un document entier.
 
+#### collection.allow(options)
+
+Autorise les utilisateurs a écrire directement dans la collection depuis le code coté client, sujet à des limitations que vous définissez
+
+    Options
+        insert, update, remove Function
+        Function qui verifie une proposition de modification dans la base de donnée et renvoie vrai si elle est autorisée.
+
+Dans les application nouvellement crée, Meteor autorise la pulpart des appels à insert, update et remove depuis n'importe quel code côté client et/ou serveur. La raison est que lorsque l'application est crée par meteor create, le paquet insecure est inclus par défaut pour simplifier le développement. Clairement, si n'importe quel utilisateur pouvait changer la base de donnée lorsqu'il en a envie, cela serait mauvais pour la sécurité, ainsi il est important d'enlever le paquet insecure et de mettre quelques règles de sécurité. 
+
+```
+
+meteor remove insecure
+
+```
+
+Une fois le paquet meteor insecure enlevé, usez des methodes allow et deny pour controller qui peut opérer des des opérations dans la base de donnée. Par défatu toutes les opérations du client sont refusées, soit nous aurons besoin d'ajouter des règles allow. Gardez en tête quele code serveur et le code à l'intérieur des méthodes ne sont pas affecté par allow et deny - ces règles ne s'applique que lorsque insert, update et remove sont appellé depuis un code client non verifié , ou trusté  -- auquel on a pas confiance.
+
+Par example nous aurions des utilisateurs qui souhaiteraient créer de nouveaux posts si les champs createdBy correspondent au ID de l'utilisateur courant, ainsi les utilisateurs ne peuvent ne pas  s'impersonner ???? - > a modifier
+
+```
+// In a file loaded on the server (ignored on the client)
+Posts.allow({
+  insert: function (userId, post) {
+    // can only create posts where you are the author
+    return post.createdBy === userId;
+  },
+  remove: function (userId, post) {
+    // can only delete your own posts
+    return post.createdBy === userId;
+  }
+  // since there is no update field, all updates
+  // are automatically denied
+});
+
+```
+
+La methode allow accepte trois possible callbacks: insert, remove et update. Le premier argument des trois callbacks ets le _id de l'utilisateur couramment connecté, et les arguments restants sont les suivants.
+
+1. insert(userId, document)
+    document est le document qui va être inseré au sein de la base de donnée. Retournez true si l'insert est autorisé, false autrement.
+2. update(userId, document, fielNames, modifier)
+    document est le document qui va être modifié. fieldNames est un tableau de haut niveau avec les fields qui sont affécté par ce changement. modifier est le Mongo Modifier qui est passé en second argument de collection.update. Il peut être difficile d'achever une validation correcte en usant de ce callback, il est ainsi recommandé d'user de méthodes. Retourenz true si l'update est autorisée false autrement.
+3. remove(userId, document)
+    document est le document qui va être enlevé de la base de donnée, retourne true si le document doit être enlevé, false autrement.
+
+
+#### collection.deny(options)
+
+Verrouille les règles allow
+
+Options
+    insert, update, remove Function
+
+    Fonctions qui regarde la modification proposé pour la base de donnée et retourne true, si elle est refusé même si un allow en dit autrement.
+
+La méthode deny vous laisse de manière sélective verrouiller vos règles allow. Cependant seulement un seul des allow callbacks doit retourner true pour autoriser une modification, tous vos deny callback doivent renvoyer false.
+
+Par example, si nous voulons verrouiller la partie de notre règle allow au dessus pour exclure l'envoi de certains titres de postes:
+
+```
+
+// In a file loaded on the server (ignored on the client)
+Posts.deny({
+  insert: function (userId, post) {
+    // Don't allow posts with a certain title
+    return post.title === "First!";
+  }
+});
+
+```
+
 ## Sessions
 
 La Session fournit un objet global dans le client que vous pouvez utiliser pour stocker un ensemble arbitraire de données clé-valeur. Utilisez-la session pour stocker des informations comme l'élément actuellement sélectionné dans une liste.
