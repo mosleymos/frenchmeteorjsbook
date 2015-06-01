@@ -528,6 +528,64 @@ Template.weather.forecast = function () {
 };
 
 ```
+Blaze convertit le template et met à jour autrun sur tout les éléments nécessaires. Mais fondatalement, ce que Blaze effectue est vraiment simple, il laisse simplement exprimer l'interface de votre application en HTML au lieu de code javascript.
+
+Le pouveoir des deps provient du fait que vous pouvez utilisez n'importe quel code javascript pour calculer ce qui va apparaître au sein de l'écran, et cela sera automatiquement réactif. Voici un exemple plus complexe.
+
+```
+var forecasts = new ReactiveDict;
+forecasts.set("Chicago", "cloudy");
+forecasts.set("Tokyo", "sunny");
+
+var settings = new ReactiveDict;
+settings.set("city", "Chicago");
+
+$('body').html("The weather in <span class='city'></span> is <span class='weather'></span>.");
+Deps.autorun(function () {
+  console.log("Updating");
+  var currentCity = settings.get('city');
+  $('.city').text(currentCity);
+  $('.weather').text(forecasts.get(currentCity).toUpperCase());
+});
+// Prints "Updating"
+// Page now says "The weather in Chicago is CLOUDY."
+```
+
+Dans cet exemple une seule variable réactive ('city' dans settings) est usé pour déterminer quel autre variable réactive sera surveillé ( forecast pour cette ville), et aussi les prévision qui change de case lorsque -> a améliorer
+
+Lorsque l'on change dans l'immédiat n'importe quelle valeur réactive, la page de met à jour automatiquement.
+
+```
+settings.set("city", "Tokyo");
+// Prints "Updating"
+// Page updates to "The weather in Tokyo is SUNNY."
+
+forecasts.set("Tokyo", "wet");
+// Prints "Updating"
+// Page updates to "The weather in Tokyo is WET."
+
+```
+
+Mais lorque la valeur reactive n'est pas nécessaire pour le rendu de la page, rien ne se passe , parce que Deps sait que la valeur n'a pas été utilisé.
+
+```
+
+forecasts.set("Chicago", "warm");
+// Does *not* print "Updating"
+// No work is done
+
+```
+
+Comme n'importe quelle application écrite avec Deps le code se décompose naturellement en trois parties:
+
+1. La source de données réactive, dans ce cas la librairie ReactiveDict. Une application réelle utilise une variété de librairies qui fournissent des valeures réactive, tel qu'une base de donné&es 
+2. Un traitement de la donnée réactive, dans ce cas un simple autorun qui use de jquery pour mettre à jour le DOM, mais dans une application réele
+3. Une logique d'application, dans ce cas le code actuel qui récupère la prévision appropriée
+
+L'idée cle des deps est que le code d'application n'a pas à être réactif du tout. Ceci est la programmation transparente réactive. Le code d'application use usete des application public des sources de données réactives(currentCIty.get), ou une requete normale MongoDb usant de minimongo par example). Le code de l'application n'a jamais fait appel à une des Deps API. Seulement les créateurs de nouvelles données de sources réactive.
+
+### Comment Deps Works ?
+
 
 
 ### ANNEXES 
