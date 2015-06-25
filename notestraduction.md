@@ -298,6 +298,8 @@ Tracker.autorun(function () {
 
 ```
 
+
+
 Ou vous pouvez attendre qu'une variable de session ait une certaine valeur, et effectuer un calcul. Si vous souhaiter l'arrêt d'un tracker vous devriez appeller la methode stop() sur la computation :
 
 ```javascript
@@ -324,6 +326,28 @@ Session.set("counter", Session.get("counter") + 1);
 
 ```
 
+### Informations supplementaires sur tracker
+
+Tracker.autorun(runFunc, [options])    ---- Client
+
+Lance une fonction et la relance plus tard lorsque les dépendences changent.
+Retourne un objet de type computation qui peut être utilisé pour arrêter la computation ou observer le changement
+
+Arguments 
+
+   runFunc Function
+   La fonction à faire tourner, elle recoit un argument , l'objet de type computation sur lequel sera fait un retour
+
+   onError Function
+   Optionnel. La fonction a relancer dès lors qu'une erreur apparaît dans la computation. Le seul argument recu est l'erreur envoyée. Les erreurs par défauts sont loggés sur la console.
+
+Tracker.autorun vous autorise à lancer une fonction qui dépend d'une source de donnée reactive, de tel manière que lorsqu'une donée est changée 
+
+Par exemple vous pouvez surveiller un curseur (qui est une source de donnée réactive) et agréger au sein d'une variable de session.
+
+```javascript
+
+```
 ### BLAZE
 
 Blaze*.render(templateOrView, parentNode, [nextNode], [parentView]) --------------Client
@@ -413,7 +437,7 @@ Template.myPictures.onRendered(function () {
   this.$('.container').packery({
     itemSelector: '.item',
     gutter: 10
-  });
+  }*E);
 });
 
 ```
@@ -616,7 +640,7 @@ Outil aussi intéressant que fiddlejs - howjs [howjs](http://www.howjs.com)
 
 #### Faire un rendu json par meteor - création d'une forme d'api
 
-Sujet pour rendre du json au lieu de templates
+Sujet pour rendre du json au lieu de templates - sujet pris sur stack overflow
 
 [Stack overflow](http://stackoverflow.com/questions/22915857/meteor-iron-router-without-layout-template-or-json-view/22916375#22916375)
 [Stack overflow](http://stackoverflow.com/questions/15601218/json-endpoint-in-meteor)
@@ -756,6 +780,9 @@ tmeasday:publish-counts
 percolatestudio:synced-cron 
 dburles:factory 
 anti:fake 
+meteorhacks:kadira-debugs
+
+
 The rabbit hole goes deeper...
 
 Wow, you must really be committed if you got this far. Ok, so you want my super secret lists?
@@ -800,6 +827,7 @@ Come drink the Meteor cool-aid with me... look we won't be alone.
     Arunoda Susiripala - Medium
     Sacha Greif - Medium
     Paul van Zyl - Medium
+    MeteorCasts - Site
 
 
 
