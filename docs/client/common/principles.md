@@ -1,25 +1,20 @@
 {{#template name="principles"}}
 
-<h2 id="sevenprinciples">Principles of Meteor</h2>
+<h2 id="sevenprinciples">Principes de Meteor</h2>
 
-- _Data on the Wire_. Meteor doesn't send HTML over the network. The server sends data and
-lets the client render it.
+- _Données sur le fil._ Meteor n'envoie pas d'HTML sur le réseau. Le serveur envoie la donnée et 
+laisse le client effectuer le rendu.
 
-- _One Language._ Meteor lets you write both the client and the server parts of your
-application in JavaScript.
+- _Un Langage._ Meteor vous laisse travailler sur la partie client et serveur de votre application en Javascript.
 
-- _Database Everywhere_. You can use the same methods to access your
-database from the client or the server.
+- _Base de donnée partout._ Vous pouvez utiliser les même methodes pour accéder à votre base de donnée depuis le client ou le serveur.
 
-- _Latency Compensation_. On the client, Meteor prefetches data and simulates models to make it look like server method calls return instantly.
+- _Compensation de latence._ Sur votre client, Meteor recueille la donnée et simule les modèles to make it look like server method calls return instantly.
 
-- _Full Stack Reactivity_. In Meteor, realtime is the default. All layers, from
-database to template, update themselves automatically when necessary.
+- _Réactivité complète._ Dans Meteor, le temps réel est par défault. Toute les couches, de la base de donnée au template, se mettent à jour de manière automatique dès que nécessaire. 
 
-- _Embrace the Ecosystem_. Meteor is open source and integrates with existing open source tools and frameworks.
+- _Embrassez l'ecosysteme._ Meteor est open source et intègre des outils et framework open source.
 
-- _Simplicity Equals Productivity_. The best way to make something
-seem simple is to have it actually _be_ simple. Meteor's main functionality has
-clean, classically beautiful APIs.
+- _Simplicité Egale Productivité._ Le meilleur moyen de faire quelque chose qui semble simple est qu'il _soit_ actuellement simple. Les fonctionnalités principales de meteor sont propres, classiques et possèdent de belles APIS.  
 
 {{/template}}

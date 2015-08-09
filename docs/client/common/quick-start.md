@@ -1,27 +1,27 @@
 {{#template name="quickStart"}}
-## Quick start!
+## Démarrage rapide!
 
-Meteor supports [OS X, Windows, and Linux](https://github.com/meteor/meteor/wiki/Supported-Platforms).
+Meteor supporte [OS X, Windows, et Linux](https://github.com/meteor/meteor/wiki/Supported-Platforms).
 
-On Windows?  [Download the official Meteor installer here](https://install.meteor.com/windows).
+Sur Windows?  [Télécharger l'installeur officiel de Meteor içi](https://install.meteor.com/windows).
 
-On OS X or Linux?  Install the latest official Meteor release from your terminal:
+Sur OS X or Linux?  Installez la dernière release officielle de Meteor depuis votre terminal:
 
 ```bash
 $ curl https://install.meteor.com/ | sh
 ```
 
-The Windows installer supports Windows 7, Windows 8.1, Windows Server
-2008, and Windows Server 2012.  The command line installer supports Mac OS X
-10.7 (Lion) and above, and Linux on x86 and x86_64 architectures.
+L'installeur Windows supporte Windows 7, Windows 8.1, Windows Server
+2008, et Windows Server 2012.  L'installateur en ligne de commande supporte Mac OS X
+10.7 (Lion) et au-dela, et Linux sur des architectures x86 and x86_64.
 
-Once you've installed Meteor, create a project:
+Une fois que vous avez intallé Meteor, pour créer un projet:
 
 ```bash
 $ meteor create myapp
 ```
 
-Run it locally:
+Lancez le localement:
 
 ```bash
 $ cd myapp
@@ -29,7 +29,7 @@ $ meteor
 # Meteor server running on: http://localhost:3000/
 ```
 
-Then, open a new terminal tab and unleash it on the world (on a free server we provide):
+Ensuite, ouvrez une nouvelle fenêtre terminal et montrez votre application au monde (sur un serveur gratuit que nous pourvoyons):
 
 ```bash
 $ meteor deploy myapp.meteor.com
