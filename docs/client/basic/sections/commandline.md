@@ -1,64 +1,61 @@
 {{#template name="commandLine"}}
 
-<h2 id="command-line">Command Line Tool</h2>
+<h2 id="command-line">Outils en ligne de commande</h2>
 
 #### `meteor help`
 
-Get help on `meteor` command line usage. Running `meteor help` by itself
-will list the common `meteor` commands. Running `meteor help <command>`
-will print detailed help about `meteor <command>`.
+Obtenir de l'aide sur l'usage de la commande en ligne de commande `meteor`. 
+Lancer `meteor help` va lister les commandes `meteor` les plus communes.
+Lancer `meteor help <command>` va imprimer une aide détaillée à propos `meteor <command>`.
 
 #### `meteor create <name>`
 
-Make a subdirectory called `<name>` and create a new Meteor app there.
+Crée un sous  dossier nommé `<name>` et crée une nouvelle application Meteor au sein de celui ci.
 
 #### `meteor run`
 
-Serve the current app at [http://localhost:3000](http://localhost:3000)
-using Meteor's local development server.
+Lançe l'application courante à:  [http://localhost:3000](http://localhost:3000)
+en usant du serveur local de développement Meteor.
 
 #### `meteor debug`
 
-Run the project with Node Inspector attached, so that you can step through your server code line by line. See [`meteor debug`](#/full/meteordebug) in the full docs for more information.
+Lance le projet avec le Node Inspector attaché, ainsi vous pouvez parcourir votre code serveur ligne par ligne. Voir [`meteor debug`](#/full/meteordebug) pour avoir la documentation complète.
 
 #### `meteor deploy <site>`
 
-Bundle your app and deploy it to `<site>`. Meteor provides free hosting if
-you deploy to `<your app>.meteor.com` as long as `<your app>` is a name
-that has not been claimed by someone else.
+Mettre en paquet votre application et la déployer sur `<site>`. Meteor fournit un hébergement gratuit si 
+vous deployez sur `<your app>.meteor.com` si `<your app>` n'a pas un nom qui est déjà pris par quelqu'un d'autre.
 
 #### `meteor update`
 
-Update your Meteor installation to the latest released version and then
-(if `meteor update` was run from an app directory) update the packages
-used by the current app to the latest versions that are compatible with
-all other packages used by the app.
+Mettre à jour votre installation Meteor sur la dernière version et
+(if `meteor update` was run from an app directory) mettre à jour les packets 
+utilisé par une application courante aux dernières versions compatibles avec les autres paquets utilisaés par les autres packets usés par l'application 
 
 #### `meteor add`
 
-Add a package (or multiple packages) to your Meteor project. To query for
-available packages, use the `meteor search` command.
+Ajoute un paquet (ou de plusieurs packets) à votre projet Meteor. Pour chercher des  
+paquets disponibles, utilisez la commande `meteor search`.
 
 #### `meteor remove`
 
-Remove a package previously added to your Meteor project. For a list of
-the packages that your application is currently using, use the
-`meteor list` command.
+Enlever un paquets precédemment installé dans votre projet Meteor. Pour avoir une liste des paquets  
+que votre application utilise actuellement, usez de la commande
+`meteor list`.
 
 #### `meteor mongo`
 
-Opens a MongoDB shell for viewing and/or manipulating collections stored
-in the database. Note that you must already be running a server for the
-current app (in another terminal window) in order for `meteor mongo` to
-connect to the app's database.
+Ouvre  un terminal MongoDB  pour voir et/ou manipuler les collections enregistrées 
+dans la base de donnée. Notez que vous devez déjà avoir un serveur qui tourne pour votre  
+application courante (dans une autre terminal) pour que `meteor mongo` se connecte à la base de données de l'application. 
 
 #### `meteor reset`
 
-Reset the current project to a fresh state. Removes all local data.
+Reset le projet courant à neuf. Enlève toute la donnée locale.
 
-If you use `meteor reset` often, but you have some initial data that you don't
-want to discard, consider using [`Meteor.startup`](#/basic/Meteor-startup) to
-recreate that data the first time the server starts up:
+Si vous utilisez `meteor reset` souvent, et que vous avez quelques données initiales que vous ne souhaitez pas effacer.
+Penser à utiliser plutôt [`Meteor.startup`](#/basic/Meteor-startup) pour 
+recréer la donnée dès le premier lancement du serveur:
 
 ```
 if (Meteor.isServer) {
