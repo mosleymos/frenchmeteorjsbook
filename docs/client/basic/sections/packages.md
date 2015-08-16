@@ -1,13 +1,10 @@
 {{#template name="basicPackages"}}
 
-<h2 id="packages"><span>Packages</span></h2>
+<h2 id="packages"><span>Paquets</span></h2>
 
-All of Meteor's functionality is implemented in modular packages. In addition
-to the core packages documented above, there are many others that you can add to
-your app to enable useful functionality.
+Toutes les fonctionnalités de Meteor sont implémentés en des paquets modulaires. En plus des paquets de base documentés au dessus, il existe plusieurs autres paqutes que vous pouvez ajouter à votre application pour activer une fonctionnalité utile.
 
-From the command line, you can add and remove packages with `meteor add`
-and `meteor remove`:
+Depuis la ligne de commande vous pouvez ajouter des paquets avec `meteor add` et en enlever avec `meteorremove`:
 
 ```bash
 # add the less package
@@ -17,16 +14,11 @@ meteor add less
 meteor remove less
 ```
 
-Your app will restart itself automatically when you add or remove a
-package.  An app's package dependencies are tracked in `.meteor/packages`,
-so your collaborators will be automatically updated to the same set of
-installed packages as you after they pull your source code, because they
-have the same `.meteor/packages` file as you.
+Votre application va redemarrer automatiquementa lorsque vous ajoutez ou enlevez un paquet. Les dépendances des paquets de votre application sont suivsi dans `.meteor/packages`, ainsi vos collaborateurs auront une mise à jour automique et le même pack de packages. Dès qu'ils ont le même `.meteor/packages` il auront la même application. 
 
-You can see which packages are used by your app by running `meteor list`
-in the app's directory.
+Vous pouvez voir quels paquets sont utilisés par votre application en utilisant `meteor list` dans le dossier de votre application.
 
-## Searching for packages
+## Chercher des paquets 
 
 Currently the best way to search for packages available from the official
 Meteor package server is [Atmosphere](https://atmospherejs.com/), the
@@ -52,14 +44,12 @@ automatically adapts to include controls for any added login services, such as
 
 ## coffeescript
 
-Use [CoffeeScript](http://coffeescript.org/) in your app. With this package, any
-files with a `.coffee` extension will be compiled to JavaScript by Meteor's
-build system.
+Utiliser [CoffeeScript](http://coffeescript.org/) dans votre application. Avec ce paquet, n'importe quel fichier avec une extension `.coffee` sera compilée en Javascript avec le build system de Meteor. 
 
 ## email
 
-Send emails from your app. See the [email section of the full API
-docs](#/full/email).
+Envoyer des emails depuis votre application. Voir la section [email de l' API
+Complete](#/full/email).
 
 <h2 id="jade">mquandalle:jade</h2>
 
@@ -78,20 +68,19 @@ extensively. See the [JQuery docs](http://jquery.com/) for more details.
 
 ## http
 
+Ce paquets permet d'effectuer des requêtes HTTP depuis le client ou le serveur en usant de la même API.
 This package allows you to make HTTP requests from the client or server using
-the same API. See the [http docs](#/full/http) to see how to use it.
+the same API. Voir [http docs](#/full/http) pour voir comment l'utiliser.
 
 ## less
 
-Add the [LESS](http://lesscss.org/) CSS preprocessor to your app to
-compile any files with a `.less` extension into standard CSS. If you want
-to use `@import` to include other files and not have Meteor automatically
-compile them, use the `.import.less` extension.
+Ajoutez [LESS](http://lesscss.org/) le preprocessor CSS à votre application pour 
+compiler n'importe quel fichier avec une extension `.less`  en CSS standard. Si vous souhaitez user 
+`@import` pour inclure d'autre fichiers,  Meteor compilera automatiquement, utilisez l'extension `.import.less`.
 
 ## markdown
 
-Include [Markdown](http://daringfireball.net/projects/markdown/syntax)
-code in your templates. It's as easy as using the `{{dstache}}#
+Inclure code [Markdown](http://daringfireball.net/projects/markdown/syntax) au sein de vos templates. C'est aussi facile que d'utiliser les `{{dstache}}#
 markdown}}` helper:
 
 ```html
@@ -103,19 +92,14 @@ Some paragraph text
 {{dstache}}/markdown}}
 </div>
 ```
-
-Just make sure to keep your markdown unindented, since whitespace matters.
+Gardez juste votre markdown non indenté puisque les espaces comptent.
 
 ## underscore
 
-[Underscore](http://underscorejs.org/) provides a collection of useful functions
-to manipulate arrays, objects, and functions. `underscore` is included in every
-Meteor app because the framework itself uses it extensively.
+[Underscore](http://underscorejs.org/) fournit une collection de fonctions utiles pour manipuler les tableaux, objects et fonctions. `underscore` est inclus dans toute application Meteor parce que le framework en luis même s'utilise de manière souple.
 
 ## spiderable
 
-This package gives your app server-side rendering to allow search engine
-crawlers and other bots see your app's contents. If you care about SEO, you
-should add this package.
+Ce paquet permet à votre application du côté serveur d'autoriser les moteurs de recherche crawler et autres bots de voir les contenus de votre application. Si votre préoccupation est le SEO, vous devez ajouter de ce paquet.
 
 {{/template}}
