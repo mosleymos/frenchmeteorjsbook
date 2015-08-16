@@ -2,31 +2,29 @@
 
 <h2 id="email"><span>Email</span></h2>
 
-The `email` package allows sending email from a Meteor app. To use it, add the
-package to your project with `$ meteor add email`.
+Le paquet `email` vous permet l'envoi de courriel depuis une application Meteor. Pour l'utiliser, ajouter le paquet
+à votre projet avec `$ meteor add email`.
 
-The server reads from the `MAIL_URL` environment variable to determine how to
-send mail. Currently, Meteor supports sending mail over SMTP; the `MAIL_URL`
-environment variable should be of the form
-`smtp://USERNAME:PASSWORD@HOST:PORT/`. For apps deployed with `meteor deploy`,
-`MAIL_URL` defaults to an account (provided by
-[Mailgun](http://www.mailgun.com/)) which allows apps to send up to 200 emails
-per day; you may override this default by assigning to `process.env.MAIL_URL`
-before your first call to `Email.send`.
+Le serveur lit la variable d'environnement  `MAIL_URL` pour determiner comment 
+envoyer un mail. En ce moment, Meteor supporte l'envoi d'email sur le protocole SMTP. La variable d'environnement `MAIL_URL`
+doit être sous la forme
+`smtp://USERNAME:PASSWORD@HOST:PORT/`. Pour les applications deployées avec `meteor deploy`,
+`MAIL_URL` le compte par default (fourni par 
+[Mailgun](http://www.mailgun.com/)) qui autorise les application a envoyer près de 200 emails
+par jour; vous pouvez verrouillez par défaut en assignant  `process.env.MAIL_URL`
+avant votre premier appel a `Email.send`.
 
-If `MAIL_URL` is not set (eg, when running your application locally),
-`Email.send` outputs the message to standard output instead.
+Si `MAIL_URL` n'est pas paramétré (eg, when running your application locally),
+`Email.send` affiche le message à la sortie standard.
 
 {{> autoApiBox "Email.send"}}
 
-You must provide the `from` option and at least one of `to`, `cc`, and `bcc`;
-all other options are optional.
+Vous devez fournir l'option `from` et au moins `to`, `cc`, et `bcc`;
+ainsi que les autres options sont facultatives.
 
-`Email.send` only works on the server. Here is an example of how a
-client could use a server method call to send an email. (In an actual
-application, you'd need to be careful to limit the emails that a
-client could send, to prevent your server from being used as a relay
-by spammers.)
+`Email.send` fonctionne seulement sur le serveur. Voiçi un exemple sur comment un 
+client pourrait utiliser une méthode de serveur pour envoyer un email. (Dans une 
+application réelle vous devez faire attention à limiter le nombre d'email qu'un client peut envoyer pour éveiter que votre serveur soit usé comme relais pour les spammers.  
 
     // In your server code: define a method that the client can call
     Meteor.methods({
