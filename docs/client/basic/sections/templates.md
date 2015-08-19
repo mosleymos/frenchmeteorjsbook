@@ -2,21 +2,18 @@
 
 <h2 id="templates"><span>Templates</span></h2>
 
-In Meteor, views are defined in _templates_. A template is a snippet of HTML
-that can include dynamic data. You can also interact with your templates from
-JavaScript code to insert data and listen to events.
+Dans Meteor les vues sont définies en _templates_ . Un template est un bout d'HTML sur lequel on inclue de la donnée dynatimque. Vous pouvez aussi interagir avec vos templates depuis le code javascript pour insérer de la donnée et ecouter des évènements.
 
-<h3 class="api-title" id="defining-templates">Defining Templates in HTML</h3>
+<h3 class="api-title" id="defining-templates">Définir des templates en HTML</h3>
 
-Templates are defined in `.html` files that can be located anywhere in your
-Meteor project folder except the `server`, `public`, and `private` directories.
+Les templates sont des fichiers `.html` qui peuvent être situés n'importe ou dans votre projet Meteor à l'execption des dossier `server`, `public` et `private`.
 
+Chaque fichier `.html` peut contenir plusieurs éléments d'en tête:
 Each `.html` file can contain any number of the following top-level elements:
 `<head>`, `<body>`, or `<template>`. Code in the `<head>` and `<body>` tags is
 appended to that section of the HTML page, and code inside `<template>` tags can
-be included using `{{dstache}}> templateName}}`, as shown in the example below.
-Templates can be included more than once &mdash; one of the main purposes of
-templates is to avoid writing the same HTML multiple times by hand.
+be included using `{{dstache}}> templateName}}`, comme montré dans l'example ci dessous.
+Les templates peuvent être inclus plus d'une fois &mdash ; Le but des templates est d'éviter d'ecrire plusieurs fois le même code HTML.
 
 ```
 <!-- add code to the <head> of the page -->
@@ -36,16 +33,11 @@ templates is to avoid writing the same HTML multiple times by hand.
 </template>
 ```
 
-The `{{dstache}} ... }}` syntax is part of a language called Spacebars that
-Meteor uses to add functionality to HTML. As shown above, it lets you include
-templates in other parts of your page. Using Spacebars, you can also display
-data obtained from _helpers_. Helpers are written in JavaScript, and can be
-either simple values or functions.
+La syntaxe `{{dstache}} ... }}` fait partie du langage SpaceBars que Meteor utilise pour ajouter des fonctionnalités au HTML. Comme montré au dessus, SpaceBars vous laisse inclure des templates dans d'autres parties de votre partie. En usant Spacebars, vous pouvez aussi afficher la donnée obtenu par vos _helpers_. Les Helpers sont écrits en Javascript, et peuvent être de simples valeurs ou fonctions.
 
 {{> autoApiBox "Template#helpers"}}
 
-Here's how you might define a helper called `name` for a template called
-`nametag` (in JavaScript):
+Maintenant voiçi comment vous pouvez définir un helper appellé `name` pour un template nommmé `nametag` (en Javascript):
 
 ```
 Template.nametag.helpers({
@@ -53,7 +45,7 @@ Template.nametag.helpers({
 });
 ```
 
-And here is the `nametag` template itself (in HTML):
+Et voiçi le template `nametag` (en HTML):
 
 ```
 <!-- In an HTML file, display the value of the helper -->
@@ -62,8 +54,7 @@ And here is the `nametag` template itself (in HTML):
 </template>
 ```
 
-Spacebars also has a few other handy control structures that can be used
-to make your views more dynamic:
+Spacebars à aussi quelques controles utiles qui peuvent être usés pour rendre vos vues plus dynamiques:
 
 - `{{dstache}}#each data}} ... {{dstache}}/each}}` - Iterate over the items in
 `data` and display the HTML inside the block for each one.
@@ -79,7 +70,7 @@ the `#with` and before the `}}` characters. For `#each` blocks, each
 element of the given array becomes the data context while the block is
 evaluated for that element.
 
-For instance, if the `people` helper has the following value
+Par example, si le helper `people` a la valeur suivante
 
 ```
 Template.welcomePage.helpers({
@@ -87,7 +78,7 @@ Template.welcomePage.helpers({
 });
 ```
 
-then you can display every person's name as a list of `<p>` tags:
+alors vous pouvez afficher tous les noms avec une liste de balises `<p>`:
 
 ```html
 {{dstache}}#each people}}
@@ -95,7 +86,7 @@ then you can display every person's name as a list of `<p>` tags:
 {{dstache}}/each}}
 ```
 
-or use the "nametag" template from above instead of `<p>` tags:
+ou user du template "nametag" au lieu de balises `<p>`:
 
 ```html
 {{dstache}}#each people}}
@@ -103,9 +94,7 @@ or use the "nametag" template from above instead of `<p>` tags:
 {{dstache}}/each}}
 ```
 
-Remember that helpers can be functions as well as simple values. For
-example, to show the logged in user's username, you might define a
-function-valued helper called `username`:
+Souvenez vous que les helpers sont des fonctions aussi bien que de simples valeurs. Par exemple, pour montrer qu'un utilisateur est loggé vous pouvez définir un helper avec une fonction qui retourne la valeur `username`:
 
 ```
 // in your JS file
@@ -116,8 +105,7 @@ Template.profilePage.helpers({
 });
 ```
 
-Now, each time you use the `username` helper, the helper function above
-will be called to determine the user's name:
+Maintenat, chaque fois vous utilisez le helper `username`, la fonction au dessous sera appellée pour déterminer le nom d'utilisateur:
 
 ```
 <!-- in your HTML -->
@@ -126,8 +114,7 @@ will be called to determine the user's name:
 </template>
 ```
 
-Helpers can also take arguments. For example, here's a helper that pluralizes
-a word:
+Les helpers peuvent aussi prendre des arguments. Par exemple, voiçi un helper qui met au pluriel un mot:
 
 ```js
 Template.post.helpers({
@@ -140,23 +127,16 @@ Template.post.helpers({
   }
 });
 ```
-
-Pass in arguments by putting them inside the curly braces after the name of the
-helper:
+Passer des arguments en les mettant à l'intérieur des accolades après le nom du helper:
 
 ```html
 <p>There are {{dstache}}commentCount 3}}.</p>
 ```
+Les helpers au dessus ont été associés à des templates spécifiques, mais vous pouvez rendre un helper disponible dans tous les templates en usant [`Template.registerHelper`](#template_registerhelper).
 
-The helpers above have all been associated with specific templates, but
-you can also make a helper available in all templates by using
-[`Template.registerHelper`](#template_registerhelper).
-
-You can find detailed documentation for Spacebars in the
-[README on GitHub](https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md).
-Later in this documentation, the sections about `Session`, `Tracker`,
-`Collections`, and `Accounts` will talk more about how to add dynamic data
-to your templates.
+Vous pourrez trouver une documentation détaillé de Spacebars dans le 
+You can find detailed documentation for Spacebars in the [README on GitHub](https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md).
+Plus tard dans cette documentation, les section sur `Session`, `Tracker`, `Collections` et `Account` parleront un peu plus sur comment ajouter de la donnée dynamique à vos templates.
 
 
 {{> autoApiBox "Template#events"}}
@@ -166,7 +146,7 @@ its keys and event handler functions as the values. Event handlers get two
 arguments: the event object and the template instance. Event handlers can also
 access the data context of the target element in `this`.
 
-To attach event handlers to the following template
+Pour attacher des events handlers pour le template suivant
 
 ```
 <template name="example">
@@ -179,8 +159,7 @@ To attach event handlers to the following template
   {{dstache}}/with}}
 </template>
 ```
-
-you might call `Template.example.events` as follows:
+vous pouvez appeller `Template.example.events` comme dessous:
 
 ```
 Template.example.events({
